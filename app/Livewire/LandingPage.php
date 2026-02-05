@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Subscriber;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Livewire\Component;
 
 class LandingPage extends Component
@@ -31,6 +32,18 @@ class LandingPage extends Component
 
             // Send notification
             $notification = new VerifyEmail;
+
+            // Send to different email then create web route
+            $notification->createUrlUsing(function ($notifiable) {
+                return URL::temporarySignedRoute(
+                    'subscribers.verify',
+                    now()->addMinutes(30),
+                    [
+                        'subscriber' => $notifiable->getKey()
+                    ],
+                );
+            });
+
             $subscriber->notify($notification);
         }, $deadlockRetries = 5);
 
