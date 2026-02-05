@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Subscriber;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Livewire\Component;
@@ -11,6 +12,8 @@ use Livewire\Component;
 class LandingPage extends Component
 {
     public $email;
+    public $showSubscribe = false;
+    public $showSuccess = false;
 
     // Validation
     protected $rules = [
@@ -21,8 +24,6 @@ class LandingPage extends Component
     {
         // Validation
         $this->validate();
-
-
 
         DB::transaction(function () {
             // Create data
@@ -48,6 +49,15 @@ class LandingPage extends Component
         }, $deadlockRetries = 5);
 
         $this->reset('email');
+        $this->showSubscribe = 'false';
+        $this->showSuccess = 'true';
+    }
+
+    public function mount(Request $request)
+    {
+        if ($request->has('verified') && $request->verified == 1) {
+            $this->showSuccess = 'true';
+        }
     }
 
     public function render()

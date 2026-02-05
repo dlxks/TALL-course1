@@ -10,10 +10,6 @@ Route::get('subscribers/verify/{subscriber}', [SubscriberController::class, 'ver
 
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');

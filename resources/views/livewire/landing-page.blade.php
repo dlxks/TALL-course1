@@ -1,6 +1,6 @@
 <div>
     <div class="flex flex-col bg-whitie w-full h-screen bg-gray-100"
-        x-data="{ showSubscribe: false,  showSuccess: false }">
+        x-data="{ showSubscribe: @entangle('showSubscribe'), showSuccess: @entangle('showSuccess') }">
         <nav
             class="flex py-2 px-4 justify-between items-center container mx-auto text-gray-700 border-b border-b-gray-200">
             <a href="/">
@@ -34,7 +34,7 @@
             <p class="text-white text-5xl font-extrabold text-center">Let's do it!</p>
             <form action="" class="flex flex-col items-center" wire:submit.prevent="subscribe">
                 <x-text-input class="px-5 py-3 w-80 border border-blue-400" type="email" name="email"
-                    placeholder="Email address" wire:model="email"></x-text-input>
+                    placeholder="Email address" wire:model.defer="email"></x-text-input>
                 <span class="text-gray-100 text-xs">
                     {{-- Validation --}}
                     {{
@@ -45,15 +45,26 @@
                 </span>
                 <x-primary-button type="submit"
                     class="px-5 py-3 mt-5 w-80 justify-center !text-gray-900 bg-white border border-white hover:!text-white hover:bg-transparent">
-                    Get in
+                    <span class="animate-spin" wire:loading wire:target='subscribe'>&#9696;</span>
+                    <span wire:loading.remove wire:target='subscribe'> Get in </span>
                 </x-primary-button>
             </form>
         </x-amodal>
 
-        <x-amodal class="bg-emerald-500" trigger="showSuccess">
+        <x-amodal class="bg-green-500" trigger="showSuccess">
             <p class="animate-pulse text-white text-5xl font-extrabold text-center">
                 <span class="text-5xl">&check;</span> You have subscribed!
             </p>
+
+            @if (request()->has('verified') && request()->verified == 1)
+            <p class=" text-white text-3xl text-center">
+                Thanks for confirming.
+            </p>
+            @else
+            <p class=" text-white text-3xl text-center">
+                See you in your inbox.
+            </p>
+            @endif
         </x-amodal>
     </div>
 </div>
