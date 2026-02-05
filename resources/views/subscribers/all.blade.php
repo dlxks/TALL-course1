@@ -11,11 +11,24 @@
         <div class="p-6 text-gray-900">
           <h2 class="text-2xl font-bold mb-4">All Subscribers</h2>
           <ul class="list-disc pl-5">
-            @forelse($subscribers as $subscriber)
-            <li>{{ $subscriber->email }}</li>
-            @empty
-            <li>No subscribers found.</li>
-            @endforelse
+            <table>
+              <thead>
+                <tr>
+                  <td class="py-2 font-bold text-lg">Email:</td>
+                </tr>
+              </thead>
+              <tbody>
+                @forelse ($subscribers as $subscriber)
+                <tr>
+                  <td>
+                    {{ $subscriber->email }}
+                  </td>
+                </tr>
+                @empty
+                No subscribers found.
+                @endforelse
+              </tbody>
+            </table>
           </ul>
         </div>
       </div>
