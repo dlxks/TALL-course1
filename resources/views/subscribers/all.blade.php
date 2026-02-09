@@ -9,27 +9,7 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
       <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
         <div class="p-6 text-gray-900">
-          <h2 class="text-2xl font-bold mb-4">All Subscribers</h2>
-          <ul class="list-disc pl-5">
-            <table>
-              <thead>
-                <tr>
-                  <td class="py-2 font-bold text-lg">Email:</td>
-                </tr>
-              </thead>
-              <tbody>
-                @forelse ($subscribers as $subscriber)
-                <tr>
-                  <td>
-                    {{ $subscriber->email }}
-                  </td>
-                </tr>
-                @empty
-                No subscribers found.
-                @endforelse
-              </tbody>
-            </table>
-          </ul>
+          <livewire:subscribers></livewire:subscribers>
         </div>
       </div>
     </div>
